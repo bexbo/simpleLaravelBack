@@ -19,20 +19,41 @@ class postController extends Controller
         //
     }
 
+
+    public function get()
+    {
+        $alldata = array(array(
+            array("id" => 1,"type"=>"foo"),
+            array(1=>"psaj",2=>"sdf"),
+            array("sdfopij"=>"apofj","dsfk"=>"ff")
+            
+        ),array(
+        array("id" => 2,"type"=>"boo"),
+        array(1=>"pj",2=>"sdf"),
+        array("sopij"=>"aofj","dsfk"=>"ff")
+
+    ))
+        ;
+
+
+        return json_encode($alldata);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(ServerRequestInterface $request)
+    public function create()
     {
-        $jsonData = $request->all(); //parsing the JSON-dat
+       // $jsonData = $request->all(); //parsing the JSON-dat
         //
-        $object = new ObjectEntity();
+        /*$object = new ObjectEntity();
         $object->setType('ny');
 
         EntityManager::persist($object);
-        EntityManager::flush();
+        EntityManager::flush();*/
+        return 'hello';
     }
 
     /**

@@ -15,9 +15,3 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
-Route::get('/getValues', function () {
-    return 'hello';
-});
-
-Route::post('/posts/store/{id}/{values}/{otherValues}', 'PostController@store($id,$values,$otherValues)');

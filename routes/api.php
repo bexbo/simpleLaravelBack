@@ -17,6 +17,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/createNew', 'postController@create');
-
-Route::get('/getAll','postController@showAll');
+Route::get('/getObjects', 'postController@get');
+Route::post('/addObject', 'postController@create');
