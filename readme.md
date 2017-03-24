@@ -35,3 +35,6 @@ DB_PASSWORD=root
 ```
 * To change these settings go to simpleLaravelBack/config/databases.php
 * Note that the URLs written in simpleAngular2Front expects the REST-api to be hosted at localhost:8888
+
+## Running the program
+To run the program simply run MAMP and make sure that both the MySQL and the Apache servers are running.
