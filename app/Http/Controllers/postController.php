@@ -2,93 +2,58 @@
 
 namespace App\Http\Controllers;
 
+
 use EntityManager;
-use Illuminate\Http\Request;
-use Psr\Http\Message\ServerRequestInterface;
+use Illuminate\Http\Request as Request;
+
 use App\Entities\ObjectEntity;
+use App\Entities\ObjectEntityRepository as Repo;
+
 
 class postController extends Controller
 {
     /**
-       * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * postController constructor.
      */
-    public function index()
+    private $repo;
+    public function __construct(Repo $repo)
     {
-        //
+        $this->repo = $repo;
     }
 
 
-    public function get()
+
+
+    public function get() //returns all stored entities
     {
-        $alldata = array(array(
-            array("id" => 1,"type"=>"foo"),
-            array(1=>"psaj",2=>"sdf"),
-            array("sdfopij"=>"apofj","dsfk"=>"ff")
-            
-        ),array(
-        array("id" => 2,"type"=>"boo"),
-        array(1=>"pj",2=>"sdf"),
-        array("sopij"=>"aofj","dsfk"=>"ff")
+        $allObjects = $this->repo->getAll();
+        $alldata = $allObjects;
 
-    ))
-        ;
-
-
-        return json_encode($alldata);
+        return response()->json($alldata);
     }
 
     /**
      * Show the form for creating a new resource.
      *
+     * @param request
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request) //creates new entity and returns it
     {
-       // $jsonData = $request->all(); //parsing the JSON-dat
-        //
-        /*$object = new ObjectEntity();
-        $object->setType('ny');
 
-        EntityManager::persist($object);
-        EntityManager::flush();*/
-        return 'hello';
-    }
+        $data = $request->all(); //parsing the JSON-dat
+        $object = new ObjectEntity();
+        $object->setType($data['type']);
+        $object->setNum($data['num']);
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+        $this->repo->create($object);
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function showAll()
-    {
-        return response()->json();
+
+
+        return response()->json($object);
 
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -97,9 +62,19 @@ class postController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request) //updates entity based on unique id
     {
-        //
+        $data = $request->all(); //parsing the JSON-data
+        $id = $data['unique_id'];
+
+        $object = $this->repo->IDOfObject($id);
+
+        $this->repo->update($object,$data);
+
+        return response()-> json('success');
+
+
+
     }
 
     /**
@@ -108,8 +83,13 @@ class postController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)//deletes entity based on unique id
     {
+        $data = $request->all();
+        $id = $data['unique_id'];
+        $object = $this->repo->IDOfObject($id);
+        $this->repo->delete($object);
+        return response()->json('delete success');
         //
     }
 

@@ -13,9 +13,9 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
 
+//routes
 Route::get('/getObjects', 'postController@get');
-Route::post('/addObject', 'postController@create');
+Route::post('/createObject', 'postController@create');
+Route::post('/updateObject', 'postController@update');
+Route::post('/deleteObject', 'postController@destroy');
